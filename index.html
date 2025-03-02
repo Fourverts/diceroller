@@ -1,0 +1,64 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+  <meta charset="UTF-8">\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+  <title>Dice Roller</title>\
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">\
+</head>\
+<body>\
+  <div class="container mt-5">\
+    <h1>Dice Roller</h1>\
+    <p>Click the button to roll the dice!</p>\
+\
+    <div class="mb-3">\
+      <label for="sides" class="form-label">Number of sides:</label>\
+      <input type="number" id="sides" class="form-control" value="6" min="2">\
+    </div>\
+\
+    <button id="roll-button" class="btn btn-primary mt-3">Roll Dice</button>\
+\
+    <h2 class="mt-3" id="result"></h2>\
+  </div>\
+\
+  <script>\
+    document.addEventListener('DOMContentLoaded', function() \{\
+      // Select the roll button and result element\
+      const rollButton = document.getElementById('roll-button');\
+      const resultElement = document.getElementById('result');\
+      \
+      // Event listener for button click\
+      rollButton.addEventListener('click', function() \{\
+        const sides = document.getElementById('sides').value;  // Get number of sides from the input field\
+\
+        // Validate the number of sides input\
+        if (sides < 2) \{\
+          alert("Please enter a number greater than 1 for sides.");\
+          return;\
+        \}\
+\
+        // Make the API call to get the dice roll result\
+        fetch(`http://localhost:3000/roll-dice?sides=$\{sides\}`)\
+          .then(response => response.json())\
+          .then(data => \{\
+            // Display the result of the dice roll\
+            resultElement.innerText = `You rolled: $\{data.roll\}`;\
+          \})\
+          .catch(error => \{\
+            // Handle errors (if API is down or fetch fails)\
+            console.error('Error:', error);\
+            resultElement.innerText = "There was an error with the dice roll. Please try again.";\
+          \});\
+      \});\
+    \});\
+  </script>\
+</body>\
+</html>\
+}
